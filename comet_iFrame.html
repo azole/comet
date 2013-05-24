@@ -1,0 +1,37 @@
+<!DOCTPYE html>
+<html>
+	<head>
+		<title>Comet - Forever IFrame</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="main.css">
+	</head>
+	<body>
+		<h1>Comet - Forever IFrame (streaming)</h1>
+		<div id="introduction">
+			<p>Comet: 參考comet_ajax.html</p>
+			<p>Forever IFrame: 又名為 Forever Iframe(或者 hidden IFrame)，在頁面中藏一個iframe，這個frame的src指向返回事件的server端路徑。</p>
+			<p>優點：實現簡單，所有有支援iframe的瀏覽器都能用。</p>
+			<p>缺點：無法處理錯誤或追蹤狀態。</p>
+		</div>
+		<div id="message"></div>
+		<iframe src="comet_iFrame.php"></iframe>
+		<div id="reference">
+			參考資料：<ul>
+				<li>JosephJ <a href="http://josephj.com/entry.php?id=358" target="_blank">Browser 與 Server 持續同步的作法介紹</a></li>
+				<li>IBM <a href="http://www.ibm.com/developerworks/cn/web/wa-reverseajax1/" target="_blank">反向ajax</a></li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="jquery-1.9.1.js"></script>
+	<script>
+		$(function(){
+			$message = $("#message");
+			
+			window.onmessage = function(data) {
+				$message.prepend(data + "<br>");
+			};
+			
+		});
+
+	</script>
+</html>

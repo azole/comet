@@ -1,0 +1,55 @@
+<!DOCTPYE html>
+<html>
+	<head>
+		<title>Comet - AJAX</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="main.css">
+	</head>
+	<body>
+		<h1>Comet - Multipart AJAX (Streaming)</h1>
+		<div id="introduction">
+			<p>Comet: 參考comet_ajax.html</p>
+			<p>利用有支援multi-part的瀏覽器，像是Firefox來實作。AJAX請求被發出給server，並保持連通狀態，每次有事件到來時，一個multi-part response就會被寫出。</p>
+			<p>優點：即為Comet的優點。</p>
+			<p>缺點：1. PHP每次都是重新刷出，不需要處理字串。(相較於comet_ajax.html中的方式)2. 瀏覽器要能支援multi-part。(好像只有firefox有)</p>
+			<p>註：留意PHP的寫法</p>
+		</div>
+		<button id="stopBtn">STOP</button>
+		<div id="message"></div>
+		<div id="reference">
+			參考資料：<ul>
+				<li>JosephJ <a href="http://josephj.com/entry.php?id=358" target="_blank">Browser 與 Server 持續同步的作法介紹</a></li>
+				<li>IBM <a href="http://www.ibm.com/developerworks/cn/web/wa-reverseajax1/" target="_blank">反向ajax</a></li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="jquery-1.9.1.js"></script>
+	<script>
+		$(function(){
+			$message = $("#message");
+			var flag = true;
+			var xhr = $.ajaxSettings.xhr(); 
+			xhr.multipart = true; 
+			xhr.open('GET', 'comet_ajax_multipart.php', true); 
+			xhr.onreadystatechange = function() { 
+			    if (xhr.readyState == 4) { 
+			    	if(xhr.responseText === "end" && flag == true) {
+			    		// 這邊看起來像long polling，如果server端不結束其實就不會。
+			    		xhr.open('GET', 'comet_ajax_multipart.php', true); 
+			    		xhr.send(null);
+			    	}			    		
+			    	else 
+				        $message.prepend(xhr.responseText + "<br/>");		
+				         
+			    } 
+			}; 
+			xhr.send(null);
+						
+			$("#stopBtn").click(function(){			
+				flag = false;
+				$message.prepend( "STOP...<br/>");
+			});
+		});
+
+	</script>
+</html>

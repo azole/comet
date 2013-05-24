@@ -1,0 +1,31 @@
+body {
+	font-size: 15px;
+}
+
+#introduction {
+	width: 600px;
+	height: 300px;
+	border: 1px solid #e0e0e0;				
+	float: left;
+	padding: 0 5px 0 5px;
+}
+
+#message {
+	width: 400px;
+	height: 300px;
+	border: 1px solid #eoeoeo;
+	overflow:auto;
+	float: left;
+	background-color: #000;
+	color: #fff;
+	padding: 0 5px 0 5px;
+}
+
+button {
+	float: left;
+}
+
+#reference {
+	padding-top: 10px;
+	clear: both;
+}

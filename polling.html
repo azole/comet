@@ -1,0 +1,43 @@
+<!DOCTPYE html>
+<html>
+	<head>
+		<title>Polling</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="main.css">
+	</head>
+	<body>
+		<h1>Polling</h1>
+		<div id="introduction">
+			<p>利用javascript的setInterval，定時利用ajax或JSONP去輪詢server端是否有資料更新。</p>
+			<p>優點：容易實現，不需要特別的伺服器。</p>
+			<p>缺點：發送請求的頻率太低則資料更新不夠快速。頻率太高則浪費頻寬。</p>
+			<p>註：另外有一種叫做peggyback polling的東西，他是在client需要時才發送請求，例如客戶按下submit的時候，其實是要驗證資料，但在驗證資料後，若server端有事件/訊息要送，就一起送回來。其優點是對資源的消耗就少，但缺點就是事件會累積在server端，直到client自己發出一個請求。</p>
+		</div>
+		<button id="stopBtn">STOP</button>
+		<div id="message"></div>
+		<div id="reference">
+			參考資料：<ul>
+				<li>JosephJ <a href="http://josephj.com/entry.php?id=358" target="_blank">Browser 與 Server 持續同步的作法介紹</a></li>
+				<li>IBM <a href="http://www.ibm.com/developerworks/cn/web/wa-reverseajax1/" target="_blank">反向ajax</a></li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="jquery-1.9.1.js"></script>
+	<script>
+		$(function(){
+			$message = $("#message");
+			var timer = setInterval(function() { 				
+			    $.getJSON('polling.php', function(data){
+			    	$message.prepend( data["dt"] + "<br/>");
+			    }); 
+			}, 1000);
+			$("#stopBtn").click(function(){
+				if(timer !== null) {
+					clearInterval(timer);
+					$message.prepend("STOP...<br/>");
+				}
+			});
+		});
+
+	</script>
+</html>

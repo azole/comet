@@ -1,0 +1,76 @@
+<!DOCTPYE html>
+<html>
+	<head>
+		<title>Comet - AJAX</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="main.css">
+	</head>
+	<body>
+		<h1>Comet - AJAX</h1>
+		<div id="introduction">
+			<p>Comet是一個Web的應用模型，在此模型中，request會被發送到server端並保持一個很長的存活期，直到timeout或是server端有事件發生，當該次request完成後，另一個長生存期的ajax request就會被送到server端去等待另外一個事件。</p>
+			<p>Comet的優點是因為client一直保持一個通道，所以server端可以即時將資訊送給client。</p>
+			<p>其實現可以分為兩類：long polling和streaming。</p>
+			<p>優點：即為Comet的優點。</p>
+			<p>缺點：1. php不是刷新，而是一直增加response的值。2. 要能處理readyState=3的瀏覽器才能運作。</p>
+		</div>
+		<button id="stopBtn">STOP</button>
+		<div id="message"></div>
+		<div id="reference">
+			參考資料：<ul>
+				<li>JosephJ <a href="http://josephj.com/entry.php?id=358" target="_blank">Browser 與 Server 持續同步的作法介紹</a></li>
+				<li>IBM <a href="http://www.ibm.com/developerworks/cn/web/wa-reverseajax1/" target="_blank">反向ajax</a></li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="jquery-1.9.1.js"></script>
+	<script>
+		$(function(){
+			$message = $("#message");
+			var flag = true;
+			var pos = 0;
+			try {
+			    var request = new XMLHttpRequest(); 
+			} catch (e) {
+			    alert("Browser doesn't support window.XMLHttpRequest");
+			}
+			request.onreadystatechange = function () {
+				if(request.readyState === 3) {
+					var text = request.responseText;
+					$message.prepend(text.substring(pos) + "<br>");
+					pos = text.length;
+				}
+				else if(request.readyState === 4) {
+					// 這邊看起來像long polling，如果server端不結束其實就不會。
+					if(flag) {
+						pos = 0;
+						request.open("GET", "comet_ajax.php", true); 
+						request.send(null); 
+					}
+
+				}
+			};
+			request.open("GET", "comet_ajax.php", true); // 傳統的作法，但因 PHP 的特殊處理讓它不會中斷
+			request.send(null); 
+			
+			// 不能用：jquery中沒有readystate=3的狀態，除非自己擴充。
+			// ==> 擴充失敗...
+			/*var long_polling = function() {
+				$.getJSON('comet_ajax.php', null, function(data){
+					console.log("test");
+					$message.prepend( data["dt"] + "<br/>");
+					if(flag) {
+						long_polling();
+					}					
+				}); 				
+			};
+		   	long_polling();*/
+
+			$("#stopBtn").click(function(){			
+				flag = false;
+				$message.prepend( "STOP...<br/>");
+			});
+		});
+
+	</script>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTPYE html>
+<html>
+	<head>
+		<title>Comet - AJAX (Long Polling)</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="main.css">
+	</head>
+	<body>
+		<h1>Comet - AJAX</h1>
+		<div id="introduction">
+			<p>Comet: 參考comet_ajax.html</p>
+			<p>改良式的long polling：iFrame、multipart、ajax comet等方法都屬於「永遠不會斷線」的做法，但long polling是發一個長時間等待的request，當server有response時斷掉，接著再發一個新的request。看起來跟原本的polling很像，但原本的polling是透過setInterval等定時器，也就是不管server有沒有reponse，時間到就會斷線重連，比較浪費，而且會有時間差。</p>
+			<p>優點：容易實現錯誤處理與timeout管理。可用在所有的瀏覽器上。</p>
+			<p>缺點：</p>
+		</div>
+		<button id="stopBtn">STOP</button>
+		<div id="message"></div>
+		<div id="reference">
+			參考資料：<ul>
+				<li>JosephJ <a href="http://josephj.com/entry.php?id=358" target="_blank">Browser 與 Server 持續同步的作法介紹</a></li>
+				<li>IBM <a href="http://www.ibm.com/developerworks/cn/web/wa-reverseajax1/" target="_blank">反向ajax</a></li>
+			</ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="jquery-1.9.1.js"></script>
+	<script>
+		$(function(){
+			$message = $("#message");
+			var flag = true;
+			 
+			
+			var long_polling = function() { 
+			    $.getJSON('comet_ajax_longpolling.php', function(data) { 
+			        $message.prepend(data["dt"] + "<br>");
+			        if(flag) {
+			        	long_polling();
+			        }
+			    }); 
+			} 
+
+			long_polling();
+
+			$("#stopBtn").click(function(){			
+				flag = false;
+				$message.prepend( "STOP...<br/>");
+			});
+		});
+
+	</script>
+</html>
