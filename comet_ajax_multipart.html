@@ -12,7 +12,7 @@
 			<p>利用有支援multi-part的瀏覽器，像是Firefox來實作。AJAX請求被發出給server，並保持連通狀態，每次有事件到來時，一個multi-part response就會被寫出。</p>
 			<p>優點：即為Comet的優點。</p>
 			<p>缺點：1. PHP每次都是重新刷出，不需要處理字串。(相較於comet_ajax.html中的方式)2. 瀏覽器要能支援multi-part。(好像只有firefox有)</p>
-			<p>註：留意PHP的寫法</p>
+			<p>註：PHP須設定'Content-type: multipart/x-mixed-replace; boundary=endofsection'，並留意後續輸出的寫法。</p>
 		</div>
 		<button id="stopBtn">STOP</button>
 		<div id="message"></div>
