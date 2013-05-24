@@ -3,7 +3,7 @@ comet
 
 Demos - how to implement comet by javascript and jquery. Server side is implemented with PHP.
 
-I. Polling  (polling.html)
+I. Polling  (polling.html) --> 這應該不算是comet
 
 利用javascript的setInterval，定時利用ajax或JSONP去輪詢server端是否有資料更新。
 
