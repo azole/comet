@@ -1,4 +1,4 @@
-<!DOCTPYE html>
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>WebSocket</title>
@@ -7,6 +7,17 @@
 	</head>
 	<body>
 		<h1>WebSocket</h1>
-		<script></script>
+		<script type="text/javascript" src="jquery-1.9.1.js"></script>
+		<script>
+			$(function(){
+				var host = "localhost:8080";
+				if("WebSocket" in window)
+					console.log("yes");
+				else 
+					console.log("no");
+
+
+			});
+		</script>
 	</body>
 </html>
