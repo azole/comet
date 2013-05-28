@@ -21,23 +21,24 @@
 				<li>IBM <a href="http://www.ibm.com/developerworks/cn/web/wa-reverseajax1/" target="_blank">反向ajax</a></li>
 			</ul>
 		</div>
-	</body>
-	<script type="text/javascript" src="jquery-1.9.1.js"></script>
-	<script>
-		$(function(){
-			$message = $("#message");
-			var timer = setInterval(function() { 				
-			    $.getJSON('polling.php', function(data){
-			    	$message.prepend( data["dt"] + "<br/>");
-			    }); 
-			}, 1000);
-			$("#stopBtn").click(function(){
-				if(timer !== null) {
-					clearInterval(timer);
-					$message.prepend("STOP...<br/>");
-				}
+	
+		<script type="text/javascript" src="jquery-1.9.1.js"></script>
+		<script>
+			$(function(){
+				$message = $("#message");
+				var timer = setInterval(function() { 				
+				    $.getJSON('polling.php', function(data){
+				    	$message.prepend( data["dt"] + "<br/>");
+				    }); 
+				}, 1000);
+				$("#stopBtn").click(function(){
+					if(timer !== null) {
+						clearInterval(timer);
+						$message.prepend("STOP...<br/>");
+					}
+				});
 			});
-		});
 
-	</script>
+		</script>
+	</body>
 </html>

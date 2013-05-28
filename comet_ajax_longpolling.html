@@ -21,30 +21,31 @@
 				<li>IBM <a href="http://www.ibm.com/developerworks/cn/web/wa-reverseajax1/" target="_blank">反向ajax</a></li>
 			</ul>
 		</div>
-	</body>
-	<script type="text/javascript" src="jquery-1.9.1.js"></script>
-	<script>
-		$(function(){
-			$message = $("#message");
-			var flag = true;
-			 
-			
-			var long_polling = function() { 
-			    $.getJSON('comet_ajax_longpolling.php', function(data) { 
-			        $message.prepend(data["dt"] + "<br>");
-			        if(flag) {
-			        	long_polling();
-			        }
-			    }); 
-			} 
+		
+		<script type="text/javascript" src="jquery-1.9.1.js"></script>
+		<script>
+			$(function(){
+				$message = $("#message");
+				var flag = true;
+				 
+				
+				var long_polling = function() { 
+				    $.getJSON('comet_ajax_longpolling.php', function(data) { 
+				        $message.prepend(data["dt"] + "<br>");
+				        if(flag) {
+				        	long_polling();
+				        }
+				    }); 
+				} 
 
-			long_polling();
+				long_polling();
 
-			$("#stopBtn").click(function(){			
-				flag = false;
-				$message.prepend( "STOP...<br/>");
+				$("#stopBtn").click(function(){			
+					flag = false;
+					$message.prepend( "STOP...<br/>");
+				});
 			});
-		});
 
-	</script>
+		</script>
+	</body>
 </html>

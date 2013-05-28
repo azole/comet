@@ -22,34 +22,35 @@
 				<li>IBM <a href="http://www.ibm.com/developerworks/cn/web/wa-reverseajax1/" target="_blank">反向ajax</a></li>
 			</ul>
 		</div>
-	</body>
-	<script type="text/javascript" src="jquery-1.9.1.js"></script>
-	<script>
-		$(function(){
-			$message = $("#message");
-			var flag = true;
-			var xhr = $.ajaxSettings.xhr(); 
-			xhr.multipart = true; 
-			xhr.open('GET', 'comet_ajax_multipart.php', true); 
-			xhr.onreadystatechange = function() { 
-			    if (xhr.readyState == 4) { 
-			    	if(xhr.responseText === "end" && flag == true) {
-			    		// 這邊看起來像long polling，如果server端不結束其實就不會。
-			    		xhr.open('GET', 'comet_ajax_multipart.php', true); 
-			    		xhr.send(null);
-			    	}			    		
-			    	else 
-				        $message.prepend(xhr.responseText + "<br/>");		
-				         
-			    } 
-			}; 
-			xhr.send(null);
-						
-			$("#stopBtn").click(function(){			
-				flag = false;
-				$message.prepend( "STOP...<br/>");
+	
+		<script type="text/javascript" src="jquery-1.9.1.js"></script>
+		<script>
+			$(function(){
+				$message = $("#message");
+				var flag = true;
+				var xhr = $.ajaxSettings.xhr(); 
+				xhr.multipart = true; 
+				xhr.open('GET', 'comet_ajax_multipart.php', true); 
+				xhr.onreadystatechange = function() { 
+				    if (xhr.readyState == 4) { 
+				    	if(xhr.responseText === "end" && flag == true) {
+				    		// 這邊看起來像long polling，如果server端不結束其實就不會。
+				    		xhr.open('GET', 'comet_ajax_multipart.php', true); 
+				    		xhr.send(null);
+				    	}			    		
+				    	else 
+					        $message.prepend(xhr.responseText + "<br/>");		
+					         
+				    } 
+				}; 
+				xhr.send(null);
+							
+				$("#stopBtn").click(function(){			
+					flag = false;
+					$message.prepend( "STOP...<br/>");
+				});
 			});
-		});
 
-	</script>
+		</script>
+	</body>
 </html>
